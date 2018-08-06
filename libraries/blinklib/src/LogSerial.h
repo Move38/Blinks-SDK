@@ -144,7 +144,7 @@ class LogSerial : public ServicePortSerial {
 #define LOG(fmt, ...) (LOG_SERIAL_INST.print(LogLevel::LOG_ALL, fmt, ##__VA_ARGS__))
 #define LOGE(fmt, ...) (LOG_SERIAL_INST.print(LogLevel::LOG_ERROR, (LOG_ERROR_HEAD fmt), ##__VA_ARGS__))
 #define LOGW(fmt, ...) (LOG_SERIAL_INST.print(LogLevel::LOG_WARN, (LOG_WARN_HEAD fmt), ##__VA_ARGS__))
-#define LOGI(fmt, ...) (LOG_SERIAL_INST.print(LogLevel::LOG_INFO, (LOG_INFO_HEAD Format, ##__VA_ARGS__))
+#define LOGI(fmt, ...) (LOG_SERIAL_INST.print(LogLevel::LOG_INFO, (LOG_INFO_HEAD fmt), ##__VA_ARGS__))
 #define LOGD(fmt, ...) (LOG_SERIAL_INST.print(LogLevel::LOG_DEBUG, (LOG_DEBUG_HEAD fmt), ##__VA_ARGS__))
 
 // Wrap the format string in F() macro
