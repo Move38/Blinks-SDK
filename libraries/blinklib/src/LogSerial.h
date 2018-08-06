@@ -156,13 +156,13 @@ class LogSerial : public ServicePortSerial {
 
 #else // LOG_SERIAL_INST not defined
 
-#define LOGA(fmt, ...) (void(0))
+#define LOG(fmt, ...) (void(0))
 #define LOGE(fmt, ...) (void(0))
 #define LOGW(fmt, ...) (void(0))
 #define LOGI(fmt, ...) (void(0))
 #define LOGD(fmt, ...) (void(0))
 
-#define LOGFA(fmt, ...) (void(0))
+#define LOGF(fmt, ...) (void(0))
 #define LOGFE(fmt, ...) (void(0))
 #define LOGFW(fmt, ...) (void(0))
 #define LOGFI(fmt, ...) (void(0))
