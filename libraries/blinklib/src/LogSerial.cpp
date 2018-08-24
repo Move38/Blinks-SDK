@@ -3,9 +3,6 @@
  * LogSerial.cpp
  */
 
-// Just has to be non-zero to pull in the class
-#define USE_LOG_LEVEL LOG_ERROR
-
 #include <stdio.h>
 #include "LogSerial.h"
 
@@ -15,20 +12,16 @@ static int logSerial_Putc(char c, FILE *file) {
     _logSerial->write(c);
 }
 
-void LogSerial::init() {
-    init(500000);
-}
-
-void LogSerial::init(unsigned long _baudrate=500000) {
+void LogSerial::init(SerialMonitorBaudRate enumBaud=SM_BAUD_RATE_500K) {
     static FILE _logOutput = {0};
- 
+
     _logSerial=getInstance();
-    _logSerial->begin(_baudrate);
+    _logSerial->begin(enumBaud);
     fdev_setup_stream(&_logOutput, logSerial_Putc, NULL, _FDEV_SETUP_WRITE);
     stdout = stderr = &_logOutput;
 }
 
-size_t LogSerial::LOG_SERIAL_PRINT_METHOD_NAME (const char *fmt, ...) {
+size_t LogSerial::LogSerialPrint (const char *fmt, ...) {
     va_list vp;
     int i;
 
@@ -39,7 +32,7 @@ size_t LogSerial::LOG_SERIAL_PRINT_METHOD_NAME (const char *fmt, ...) {
 	return i;
 }
 
-size_t LogSerial::LOG_SERIAL_PRINT_METHOD_NAME (const __FlashStringHelper *fmt, ...) {
+size_t LogSerial::LogSerialPrint (const __FlashStringHelper *fmt, ...) {
     va_list vp;
     int i;
 

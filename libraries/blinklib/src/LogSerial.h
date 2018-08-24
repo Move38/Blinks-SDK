@@ -79,10 +79,11 @@ The default header strings are:
 #define LOG_DEBUG   4
 #define LOG_ALL     LOG_DEBUG
 
-#ifdef USE_LOG_LEVEL
-
-// Convenience for future
-#define LOG_SERIAL_PRINT_METHOD_NAME LogSerialPrint
+// ensure only chooses what's supported.
+enum SerialMonitorBaudRate {
+    SM_BAUD_RATE_500K = 500000,
+    SM_BAUD_RATE_250K = 250000
+};
 
 class LogSerial : public ServicePortSerial {
 
@@ -91,11 +92,11 @@ class LogSerial : public ServicePortSerial {
     LogSerial(LogSerial const&) = delete;
     void operator=(LogSerial const&) = delete;
 
-    static void init();
-    static void init(unsigned long);// specify baud rate (250000 or 500000)
+   static void init(SerialMonitorBaudRate);// specify baud rate (250000 or 500000)
 
-    static size_t LOG_SERIAL_PRINT_METHOD_NAME(const char *, ...);
-    static size_t LOG_SERIAL_PRINT_METHOD_NAME(const __FlashStringHelper *, ...);
+
+    static size_t LogSerialPrint(const char *, ...);
+    static size_t LogSerialPrint(const __FlashStringHelper *, ...);
 
     private:
 
@@ -106,21 +107,20 @@ class LogSerial : public ServicePortSerial {
 
     LogSerial() {}
 };
-#endif
 
 #if (USE_LOG_LEVEL > 0)
 
-#define LOG_SERIAL_PRINT_METHOD LogSerial::LOG_SERIAL_PRINT_METHOD_NAME
+
+#define LOG_SERIAL_PRINT_METHOD LogSerial::LogSerialPrint
 #define LOG(fmt, ...) (LOG_SERIAL_PRINT_METHOD(fmt, ##__VA_ARGS__))
 #define LOGF(fmt, ...) (LOG_SERIAL_PRINT_METHOD(F(fmt), ##__VA_ARGS__))
-#define LOG_SERIAL_BEGIN(baudrate) LogSerial::init(baudrate)
+#define LOG_SERIAL_BEGIN(enumbaudrate) LogSerial::init(enumbaudrate)
 
 #else // USE_LOG_LEVEL 0
 
 #define LOG(fmt, ...) (void(0))
 #define LOGF(fmt, ...) (void(0))
-#define LOG_SERIAL_BEGIN(baudrate) (void(0))
-#undef LOG_SERIAL_PRINT_METHOD_NAME
+#define LOG_SERIAL_BEGIN(enumbaudrate) (void(0))
 
 #endif // USE_LOG_LEVEL defined at all
 
