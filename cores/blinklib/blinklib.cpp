@@ -291,19 +291,12 @@ static void setColorNow( Color newColor ) {
 
 Color dim( Color color, byte brightness) {
     return MAKECOLOR_5BIT_RGB(
-        (GET_5BIT_R(color)*brightness)/MAX_BRIGHTNESS,
-        (GET_5BIT_G(color)*brightness)/MAX_BRIGHTNESS,
-        (GET_5BIT_B(color)*brightness)/MAX_BRIGHTNESS
+    (GET_5BIT_R(color)*brightness)/255,
+    (GET_5BIT_G(color)*brightness)/255,
+    (GET_5BIT_B(color)*brightness)/255
     );
 }
 
-Color lighten( Color color, byte brightness) {
-    return MAKECOLOR_5BIT_RGB(
-        (GET_5BIT_R(color) + (((MAX_BRIGHTNESS_5BIT- (GET_5BIT_R(color)))*brightness)/MAX_BRIGHTNESS )),
-        (GET_5BIT_G(color) + (((MAX_BRIGHTNESS_5BIT- (GET_5BIT_G(color)))*brightness)/MAX_BRIGHTNESS )),
-        (GET_5BIT_B(color) + (((MAX_BRIGHTNESS_5BIT- (GET_5BIT_B(color)))*brightness)/MAX_BRIGHTNESS ))
-    );
-}
 
 // When will we warm sleep due to inactivity
 // reset by a button press or seeing a button press bit on
