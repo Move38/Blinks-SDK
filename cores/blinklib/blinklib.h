@@ -207,11 +207,14 @@ typedef pixelColor_t Color;
 #define GET_5BIT_B(color) (color.b)
 
 // Dim the specified color. Brightness is 0-255 (0=off, 255=don't dim at all-keep original color)
-// Inlined to allow static simplification at compile time
 
 #define MAX_BRIGHTNESS (255)
 
 Color dim( Color color, byte brightness);
+
+// Brighten the specified color. Brightness is 0-255(0=unaltered color, 255=full white)
+
+Color lighten( Color color, byte brightness);
 
 // This maps 0-255 values to 0-31 values with the special case that 0 (in 0-255) is the only value that maps to 0 (in 0-31)
 // This leads to some slight non-linearity since there are not a uniform integral number of 1-255 values
