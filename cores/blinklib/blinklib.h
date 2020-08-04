@@ -69,6 +69,9 @@ void setValueSentOnFace( byte value , byte face );
 
 void setValueSentOnAllFaces( byte value );
 
+// Returns the current value being sent on the given face.
+byte getValueSentOnFace( byte face );
+
 /* --- Datagram processing */
 
 // A datagram is a set of 1-IR_DATAGRAM_MAX_LEN bytes that are atomically sent over the IR link
@@ -108,6 +111,16 @@ void markDatagramReadOnFace( uint8_t face );
 // Note that if the len>IR_DATAGRAM_LEN then packet will never be sent or recieved
 
 void sendDatagramOnFace(  const void *data, byte len , byte face );
+
+// Returns a pointer to the datagram currently pending to be sent on the given face.
+byte* getOutDatagramOnFace( byte face );
+
+// Returns the side of the datagram currently pending to be sent on the given face. 0 means no
+// datagram is pending.
+byte getOutDatagramLengthOnFace( byte face );
+
+// Returns true if there is a datagram currently pending to be sent on the given face.
+bool isOutDatagramPendingOnFace( byte face );
 
 
 /*

@@ -237,6 +237,19 @@ void markDatagramReadOnFace( uint8_t face ) {
     faces[face].inDatagramLen = 0;
 }    
 
+byte* getOutDatagramOnFace( byte face ) {
+    return faces[face].outDatagram;
+}
+
+byte getOutDatagramLengthOnFace( byte face ) {
+    return faces[face].outDatagramLen;
+}
+
+bool isOutDatagramPendingOnFace( byte face ) {
+    return getOutDatagramLengthOnFace(face) != 0;
+}
+
+
 // Jump to the send packet function all way up in the bootloader
 
 uint8_t blinkbios_irdata_send_packet(  uint8_t face, const uint8_t *data , uint8_t len ) {
@@ -854,6 +867,9 @@ void setValueSentOnFace( byte value , byte face ) {
 
 }
 
+byte getValueSentOnFace( byte face ) {
+	return faces[face].outValue;
+}
 
 
 // --------------Button code
