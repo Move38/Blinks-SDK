@@ -64,7 +64,7 @@ avrdude -B 4 -D -v -patmega168pb -cusbtiny -Uflash:w:D-TimerFlashX.ino.with_boot
 ```
  
 `-D` skips erasing the flash before programming it. If you are programming virgin chips then the flash should be blank.
-`-B` lowered to 4 slightly increases the programmer clock. Some out of spec chips might fall to program at this speed. 
+`-B` lowered to 4 slightly increases the programmer clock, which reduces programming time. Note that some units might fail at this increased speed. 
 
 Note that these new options are both safe because the verify will fail if anything goes wrong. 
 

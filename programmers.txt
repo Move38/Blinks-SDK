@@ -22,7 +22,6 @@ arduinoisp.protocol=arduinoisp
 arduinoisp.program.tool=avrdude
 arduinoisp.program.extra_params=
 
-
 usbasp.name=Blinks USBasp
 usbasp.communication=usb
 usbasp.protocol=usbasp
