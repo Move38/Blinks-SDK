@@ -7,7 +7,6 @@ http://move38.com
 This core requires at least Arduino IDE v1.6.2, where v1.6.5+ is recommended. <br/>
 * [Programmers](#programmers)
 * **[How to install](#how-to-install)**
-* **[Getting started](#getting-started)**
 
 Covers installing this repo so that you can write and download code into a Blinks tile using the Arduino IDE. 
 
