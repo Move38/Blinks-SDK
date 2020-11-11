@@ -1,13 +1,13 @@
-This folder contains the BlinkBIOS bootloader HEX file. This file is created by the BlinkBIOS repo...
+This folder contains the BlinkBIOS bootloader HEX file. The BlinkBIOS is a hardware abstraction layer that is loaded into the bootloader area of flash.
 
-https://github.com/bigjosh/Move38-BlinkBIOS
+The blinkBIOS is an abstraction layer that provides access to the blinks hardware and is defined by the `blinkbios_*.h` files in the `cores/blinklib/shared` directory. 
 
-..and then copied here after each compile by an Atmel Studio post-build event. Note that the this bootloader directory is hardcoded into the text of that event. 
-
+Ideally we would like to program the BIOS once into each blink when it is manufactured and then only update the application section of the flash thereafter, but unfortunately on this chip the entire flash is always erased on each hardware programming cycle, so we must reprogram the bootloader each time. That is why this HEX file must be included here.
+  
 This file is used by...
 
-1. The `upload` and `program` recipes to download a new sketch to a blink. Note that we could make upload only update the actual program and not the BIOS for faster turnaround during development, but I do not want to change this behavior now. The path to the bootloader is hardcoded into the recipes but is relative to the platform folder.
-2. The `Export Binary` function which creates a single HEX file with both the current sketch and the BIOS. In this case, the folder name must be `bootloader` as this is hardcoded into the IDE. 
+1. The `program` recipe in `platform.txt` that downloads a new sketch to a blink. 
+2. The `Export Binary` function which creates a single HEX file with both the current sketch and the BIOS. Note that this folder must be named `bootloader` as this is hardcoded into the Arduino IDE. 
 
 
  

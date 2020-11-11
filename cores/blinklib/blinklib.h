@@ -1,17 +1,9 @@
 /*
  * blkinklib.h
  *
- * This defines a statefull view of the blinks tile interactions with neighbors.
+ * Used for programming blinks by Move38 with the Arduino IDE. Move info at move38.com.
  *
- * In this view, each tile has a "state" that is represented by a number between 1 and 127.
- * This state value is continuously broadcast on all of its faces.
- * Each tile also remembers the most recently received state value from he neighbor on each of its faces.
- *
- * Note that this library depends on the blinklib library for communications with neighbors. The blinklib
- * IR read functions are not available when using the blinkstate library.
- *
- * Note that the beacon transmissions only occur when the loop() function returns, so it is important
- * that sketches using this model return from loop() frequently.
+ * This file is automatically included by the Arduino IDE when the blinks board type is selected. 
  *
  */
 
@@ -32,7 +24,6 @@
 */
 
 // The value of the data sent and received on faces via IR can be between 0 and IR_DATA_VALUE_MAX
-// If you try to send higher than this, the max value will be sent.
 
 #define IR_DATA_VALUE_MAX 63
 
@@ -55,7 +46,7 @@ byte didValueOnFaceChange( byte face );
 
 byte isValueReceivedOnFaceExpired( byte face );
 
-// Returns false if their has been a neighbor seen recently on any face, returns true otherwise.
+// Returns false if there has been a neighbor seen recently on any face, returns true otherwise.
 bool isAlone();
 
 // Set value that will be continuously broadcast on specified face.
@@ -96,7 +87,7 @@ const byte *getDatagramOnFace( uint8_t face );
 // Frees up the buffer holding the datagram data. Do this as soon as possible after you have
 // processed the datagram to free up the slot for the next incoming datagram on this face.
 // If a new datagram is recieved on a face before markDatagramReadOnFace() is called then
-// the new datagram is siliently discarded. 
+// the new datagram is silently discarded. 
 
 void markDatagramReadOnFace( uint8_t face );
 
@@ -122,13 +113,13 @@ void sendDatagramOnFace(  const void *data, byte len , byte face );
 
 */
 
-// Debounced view of button state. true if the button currently pressed.
+// Debounced view of button state. True if the button currently pressed.
 
 bool buttonDown(void);
 
 // Was the button pressed or lifted since the last time we checked?
 // Note that these register the change the instant the button state changes
-// without any delay, so good for latency sensitive cases.
+// without any delay, so good for latency-sensitive cases.
 // It is debounced, so the button must have been in the previous state a minimum
 // debounce time before a new detection will occur.
 
@@ -150,16 +141,13 @@ bool buttonDoubleClicked();
 
 bool buttonMultiClicked();
 
-
 // The number of clicks in the longest consecutive valid click cycle since the last time called.
 byte buttonClickCount(void);
 
 // Remember that a long press fires while the button is still down
 bool buttonLongPressed(void);
 
-// 6 second press. Note that this will trigger seed mode if the blink is alone so
-// you will only ever see this if blink has neighbors when the button hits the 6 second mark.
-// Remember that a long press fires while the button is still down
+// Remember that a long long press fires while the button is still down
 bool buttonLongLongPressed(void);
 
 /*
@@ -186,7 +174,6 @@ typedef pixelColor_t Color;
 // R,G,B are all in the domain 0-31
 // Here we expose the internal color representation, but it is worth it
 // to get the performance and size benefits of static compilation
-// Shame no way to do this right in C/C++
 
 #define MAKECOLOR_5BIT_RGB(r,g,b) (pixelColor_t(r,g,b,1))
 
@@ -252,10 +239,11 @@ void setFaceColor(  byte face, Color newColor );
 // Important notes:
 // 1) does not increment while sleeping
 // 2) is only updated between loop() interations
-// 3) is not monotonic, so always use greater than
+// 3) is monotonic upwards
+// 4) is not continuous, so always use greater than
 //    and less than rather than equals for comparisons
-// 4) overflows after about 50 days
-// 5) is only accurate to about +/-10%
+// 5) overflows after about 50 days
+// 6) is only accurate to about +/-10%
 
 unsigned long millis(void);
 
@@ -263,21 +251,21 @@ class Timer {
 
 	private:
 
-		uint32_t m_expireTime;		// When this timer will expire
+		uint32_t m_expireTime;		    // When this timer will expire
 
 	public:
 
-		Timer() {};		                    // Timers come into this world pre-expired.
+		Timer() {};		                // Timers come into this world pre-expired.
 
 		bool isExpired();
 
         uint32_t getRemaining();
 
-        void set( uint32_t ms );            // This time will expire ms milliseconds from now
+        void set( uint32_t ms );        // This time will expire ms milliseconds from now
 
 		void add( uint16_t ms );
 
-        void never(void);                   // Make this timer never expire (unless set())
+        void never(void);               // Make this timer never expire (unless set() again)
 
 };
 

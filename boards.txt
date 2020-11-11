@@ -16,7 +16,10 @@ blink.vid.3=0x2341
 blink.pid.3=0x0243
 
 blink.upload.tool=avrdude
-blink.upload.protocol=arduino
+# IMPORTANT: Do not put a protocol here. 
+# If the protocol is `null` then Arduino will fall back and use 
+# whatever programmer is selected in Tools->Programmer
+
 
 # This is the maximum size of a program image. It comes from 
 # `blinkbios.h` and is the result of `FLASH_PAGES_PER_IMAGE` * `FLASH_BYTES_PER_PAGE`

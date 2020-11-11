@@ -1332,6 +1332,7 @@ void __attribute__((noreturn)) run(void)  {
     statckwatcher_init();   // Set up the sentinel byte at the top of RAM used by variables so we can tell if stack clobbered it
 
     setup();
+    
 
     while (1) {
         
@@ -1382,11 +1383,6 @@ void __attribute__((noreturn)) run(void)  {
 
                 warm_sleep_cycle();
 
-                // Clear out the press that put us to sleep so we do not see it again
-                // Also clear out everything else so we start with a clean slate on waking
-                                
-                blinkbios_button_block.bitflags = 0;
-
             } else {
 
                 // They let go before we got to 7 seconds, so enter SEED mode! (and never return!)
@@ -1406,10 +1402,6 @@ void __attribute__((noreturn)) run(void)  {
 
             warm_sleep_cycle();
 
-            // Clear out the press that put us to sleep so we do not see it again
-            // Also clear out everything else so we start with a clean slate on waking
-            blinkbios_button_block.bitflags = 0;
-
         }
 
         // Capture time snapshot
@@ -1422,6 +1414,10 @@ void __attribute__((noreturn)) run(void)  {
             viralPostponeWarmSleep();
         }
 
+	// Update the IR RX state
+        // Receive any pending packets
+        RX_IRFaces();
+
         cli();
         buttonSnapshotDown       = blinkbios_button_block.down;
         buttonSnapshotBitflags  |= blinkbios_button_block.bitflags;     // Or any new flags into the ones we got
@@ -1429,10 +1425,6 @@ void __attribute__((noreturn)) run(void)  {
         buttonSnapshotClickcount = blinkbios_button_block.clickcount;
         sei();
 
-
-        // Update the IR RX state
-        // Receive any pending packets
-        RX_IRFaces();
 
         loop();
 
